@@ -5,7 +5,7 @@ function exibirAlertaSucesso($mensagem)
     if (!empty($mensagem)) {
        return $mensagem;
     }
-
+    return '';
 }
 
 function exibirAlertaErro($mensagem)
@@ -13,7 +13,7 @@ function exibirAlertaErro($mensagem)
     if (!empty($mensagem)) {
       return $mensagem;
     }
-
+      return '';
 }
 
 ?>

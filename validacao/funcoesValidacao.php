@@ -1,7 +1,7 @@
 <?php 
 
 function ValidacaoTitulo($valor){
-    return !empty($valor) && strlen($valor) < 5;
+    return !empty($valor) && strlen($valor) > 5;
 }
 
 function ValidacaoData($data){
@@ -11,6 +11,7 @@ function ValidacaoData($data){
         if ($DataTarefaFormatada < $DataAtual) {
           return false;
         }
+          return true;
       } else {
         return  false;
       }

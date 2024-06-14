@@ -104,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php if (!empty(exibirAlertaErro($erroTitulo))) : ?>
               <div class="alert alert-danger">
                 <strong>Erro!</strong><br>
-                <?php echo $erroTitulo ?>
+                <?php echo exibirAlertaErro($erroTitulo); ?>
               </div>
             <?php endif; ?>
             <label for="Titulo_Tarefa" class="form-label fw-semibold">Título da Tarefa</label>
@@ -114,7 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <?php if (!empty(exibirAlertaErro($erroData))) : ?>
               <div class="alert alert-danger">
                 <strong>Erro!</strong><br>
-                <?php echo $erroData ?>
+                <?php echo exibirAlertaErro($erroData); ?>
               </div>
             <?php endif; ?>
             <label for="Data_Tarefa" class="form-label fw-semibold">Data da Tarefa</label>
