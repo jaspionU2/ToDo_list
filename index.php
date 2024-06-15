@@ -37,9 +37,6 @@ if (!VerificaoMetodoGet()) {
         "data" =>  date('d/m/Y', strtotime($DataTarefa))
       ];
 
-
-    // header("Location: listaTarefa.php");
-    // exit();
   }
 }
 
@@ -94,7 +91,7 @@ if (!VerificaoMetodoGet()) {
           <div class="mb-4">
             <?php if (!empty(exibirAlertaSucesso($sucessoValidação))) : ?>
               <div class="alert alert-success">
-                <strong>Erro!</strong><br>
+                <strong>UhUuuuu!</strong><br>
                 <?php echo exibirAlertaSucesso($sucessoValidação); ?>
               </div>
             <?php endif; ?>

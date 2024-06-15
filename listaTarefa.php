@@ -18,12 +18,16 @@ if (!VerificaoMetodoGet()) {
   ];
 }
 
+$ListaExcluida = false;
 
 if (isset($_GET['excluir'])) {
   if (isset($_SESSION["Tarefas"][$_GET['excluir']])) {
     unset($_SESSION["Tarefas"][$_GET['excluir']]);
 
+    $ListaExcluida = true;
+
     $_SESSION["Tarefas"] = array_values($_SESSION["Tarefas"]);
+    header("Location: listaTarefa.php");
   }
 }
 
@@ -41,6 +45,18 @@ $tarefas = $_SESSION["Tarefas"];
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <title>Document</title>
+
+  <style>
+
+    .alerta_excluir{
+      width: 10rem;
+      left: 50%;
+      transform: translate(-50%);
+      margin-top: 3rem;
+    }
+
+  </style>
+
 </head>
 
 <body>
@@ -62,12 +78,18 @@ $tarefas = $_SESSION["Tarefas"];
       </div>
     </nav>
 
+    <?php if ($ListaExcluida) : ?>
+        <div class="alerta_excluir alert alert-danger text-center text-dark fw-semibold">Tarefa excluida!</div>
+      <?php endif; ?>
+
     <div class="container d-flex px-3 mt-5">
 
+     
+
       <table class="table table-hover">
-        <thead>
+        <thead class="table-primary">
           <tr>
-            <th scope="col">#</th>
+            <th class="col ">#</th>
             <th scope="col">Tarefa</th>
             <th scope="col">Data</th>
             <th scope="col">Ação</th>
@@ -76,7 +98,7 @@ $tarefas = $_SESSION["Tarefas"];
         <tbody class="table-group-divider">
           <?php if (isset($tarefas) && count($tarefas) > 0) : ?>
             <?php foreach ($tarefas as $chave => $tarefa) : ?>
-              <tr>
+              <tr class="table-success">
                 <th><?php echo $chave + 1; ?></th>
                 <td><?php echo  htmlspecialchars($tarefa["tarefa"]); ?></td>
                 <td><?php echo  htmlspecialchars($tarefa["data"]); ?></td>
