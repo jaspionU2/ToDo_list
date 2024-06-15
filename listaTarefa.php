@@ -21,7 +21,7 @@
                   <a class="nav-link text-white fw-semibold fs-5" href="index.php">Cadastrar tarefa</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link active text-white fw-semibold fs-5" aria-current="page" href="listarTarefa.html">listar Tarefa</a>
+                  <a class="nav-link active text-white fw-semibold fs-5" aria-current="page" href="listarTarefa.php">listar Tarefa</a>
                 </li>
               </ul>
             </div>
