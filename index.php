@@ -30,16 +30,16 @@ if (!VerificaoMetodoGet()) {
 
   if (ValidacaoData($DataTarefa) && ValidacaoTitulo($TituloTarefa)) {
     $sucessoValidação = "Tarefa cadastrada com sucesso";
-    
-  //    $_SESSION["Tarefas"][] = 
-  // [
-  //    "tarefa" => $TituloTarefa,
-  //    "data" => $DataTarefa
-  // ];
+
+    $_SESSION["Tarefas"][] =
+      [
+        "tarefa" => $TituloTarefa,
+        "data" =>  date('d/m/Y', strtotime($DataTarefa))
+      ];
 
 
-     header("Location: listaTarefa.php");
-     exit();
+    // header("Location: listaTarefa.php");
+    // exit();
   }
 }
 

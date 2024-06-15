@@ -19,7 +19,7 @@ function ValidacaoData($data){
 }
 
  function VerificaoMetodoGet(){
-   return $_SERVER['REQUEST_METHOD'] === 'GET';
+   return $_SERVER['REQUEST_METHOD'] == 'GET';
  }
 
 

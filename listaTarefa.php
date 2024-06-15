@@ -4,22 +4,28 @@ session_start();
 
 include_once "./validacao/funcoesValidacao.php";
 
-$TituloTarefa = '';
-$DataTarefa = '';
 
 
 
-if(!VerificaoMetodoGet()){
+if (!VerificaoMetodoGet()) {
   $TituloTarefa = $_POST["Titulo_Tarefa"];
   $DataTarefa = $_POST["Data_Tarefa"];
+
+
+  $_SESSION["Tarefas"][] = [
+    "tarefa" => $TituloTarefa,
+    "data" => $DataTarefa
+  ];
 }
 
-$_SESSION["Tarefas"][] = 
-[
-   "tarefa" => $TituloTarefa,
-   "data" => $DataTarefa
-];
 
+if (isset($_GET['excluir'])) {
+  if (isset($_SESSION["Tarefas"][$_GET['excluir']])) {
+    unset($_SESSION["Tarefas"][$_GET['excluir']]);
+
+    $_SESSION["Tarefas"] = array_values($_SESSION["Tarefas"]);
+  }
+}
 
 $tarefas = $_SESSION["Tarefas"];
 ?>
@@ -56,9 +62,9 @@ $tarefas = $_SESSION["Tarefas"];
       </div>
     </nav>
 
-    <div class="container d-flex px-3">
+    <div class="container d-flex px-3 mt-5">
 
-      <table class="table">
+      <table class="table table-hover">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -69,14 +75,15 @@ $tarefas = $_SESSION["Tarefas"];
         </thead>
         <tbody class="table-group-divider">
           <?php if (isset($tarefas) && count($tarefas) > 0) : ?>
-            <?php foreach ($tarefas as $chave => $tarefa) :?>
-            <tr>
-              <th><?php echo $chave + 1; ?></th>
-              <td><?php echo  htmlspecialchars($tarefa["tarefa"]); ?></td>
-              <td><?php echo  htmlspecialchars($tarefa["data"]); ?></td>
-            </tr>
+            <?php foreach ($tarefas as $chave => $tarefa) : ?>
+              <tr>
+                <th><?php echo $chave + 1; ?></th>
+                <td><?php echo  htmlspecialchars($tarefa["tarefa"]); ?></td>
+                <td><?php echo  htmlspecialchars($tarefa["data"]); ?></td>
+                <td><button type="button" class="btn btn-danger"><a class="link-light link-underline link-underline-opacity-0" href="listaTarefa.php?excluir=<?php echo $chave; ?>">Excluir</a></button></td>
+              </tr>
 
-           <?php endforeach; ?>
+            <?php endforeach; ?>
           <?php endif; ?>
         </tbody>
 
