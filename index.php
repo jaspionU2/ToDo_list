@@ -10,7 +10,7 @@ $erroData = '';
 $sucessoValidação = '';
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (!VerificaoMetodoGet()) {
 
   $DataTarefa = $_POST['Data_Tarefa'];
   $TituloTarefa = $_POST['Titulo_Tarefa'];
@@ -19,9 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $DataValida = true;
   $TituloValido = true;
 
-   if (!ValidacaoData($DataTarefa)) {
-     $erroData = 'ERRO: O campo "data" não foi informado corretamente!!!';
-   }
+  if (!ValidacaoData($DataTarefa)) {
+    $erroData = 'ERRO: O campo "data" não foi informado corretamente!!!';
+  }
 
   if (!ValidacaoTitulo($TituloTarefa)) {
     $erroTitulo = 'ERRO: O campo "Titulo" não foi informado corretamente!!!';
@@ -30,26 +30,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if (ValidacaoData($DataTarefa) && ValidacaoTitulo($TituloTarefa)) {
     $sucessoValidação = "Tarefa cadastrada com sucesso";
+    
+  //    $_SESSION["Tarefas"][] = 
+  // [
+  //    "tarefa" => $TituloTarefa,
+  //    "data" => $DataTarefa
+  // ];
+
+
+     header("Location: listaTarefa.php");
+     exit();
   }
-
-  // if (!empty($DataTarefa)) {
-  //   $DataAtual = date('Y-m-d');
-  //   $DataTarefaFormatada =  date('Y-m-d', strtotime($DataTarefa));
-  //   if ($DataTarefaFormatada < $DataAtual) {
-  //     $DataValida = false;
-  //     $erroData = 'Erro: O campo "DATA" não foi preenchido corretamente';
-  //   }
-  // } else {
-  //   $DataValida = false;
-  //   $erroData = 'ERRO: O campo data não foi informado corretamente!!!';
-  // }
-
-
-  // if (empty($TituloTarefa) || strlen($TituloTarefa) < 5) {
-  //   $TituloValido = false;
-  //   $erroTitulo = 'ERRO: O campo "Titulo" não foi informado corretamente';
-  // }
-
 }
 
 ?>
@@ -87,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               tarefa</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white fw-semibold fs-5" href="listarTarefa.html">listar Tarefa</a>
+            <a class="nav-link text-white fw-semibold fs-5" href="listaTarefa.php">listar Tarefa</a>
           </li>
         </ul>
       </div>
@@ -101,6 +92,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="card-body">
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
           <div class="mb-4">
+            <?php if (!empty(exibirAlertaSucesso($sucessoValidação))) : ?>
+              <div class="alert alert-success">
+                <strong>Erro!</strong><br>
+                <?php echo exibirAlertaSucesso($sucessoValidação); ?>
+              </div>
+            <?php endif; ?>
+          </div>
+          <div class="mb-4">
             <?php if (!empty(exibirAlertaErro($erroTitulo))) : ?>
               <div class="alert alert-danger">
                 <strong>Erro!</strong><br>
@@ -111,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="text" class="form-control" id="Titulo_Tarefa" name="Titulo_Tarefa" placeholder="Ex.:comprar leite">
           </div>
           <div class="mb-4">
-          <?php if (!empty(exibirAlertaErro($erroData))) : ?>
+            <?php if (!empty(exibirAlertaErro($erroData))) : ?>
               <div class="alert alert-danger">
                 <strong>Erro!</strong><br>
                 <?php echo exibirAlertaErro($erroData); ?>

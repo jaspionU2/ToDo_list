@@ -15,7 +15,12 @@ function ValidacaoData($data){
       } else {
         return  false;
       }
+
 }
+
+ function VerificaoMetodoGet(){
+   return $_SERVER['REQUEST_METHOD'] === 'GET';
+ }
 
 
 ?>
