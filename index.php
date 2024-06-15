@@ -104,7 +104,7 @@ if (!VerificaoMetodoGet()) {
               </div>
             <?php endif; ?>
             <label for="Titulo_Tarefa" class="form-label fw-semibold">Título da Tarefa</label>
-            <input type="text" class="form-control" id="Titulo_Tarefa" name="Titulo_Tarefa" placeholder="Ex.:comprar leite">
+            <input type="text" class="form-control" id="Titulo_Tarefa" name="Titulo_Tarefa" placeholder="Ex.:Comprar pão" autocomplete="on">
           </div>
           <div class="mb-4">
             <?php if (!empty(exibirAlertaErro($erroData))) : ?>
@@ -114,7 +114,7 @@ if (!VerificaoMetodoGet()) {
               </div>
             <?php endif; ?>
             <label for="Data_Tarefa" class="form-label fw-semibold">Data da Tarefa</label>
-            <input type="date" class="form-control" id="Data_Tarefa" name="Data_Tarefa" placeholder="Ex.:13/06/2024">
+            <input type="date" class="form-control" id="Data_Tarefa" name="Data_Tarefa" placeholder= "">
           </div>
           <button class="btn btn-primary" type="submit">Cadastrar Tarefa</button>
       </div>

@@ -6,6 +6,7 @@ function exibirAlertaSucesso($mensagem)
        return $mensagem;
     }
     return '';
+
 }
 
 function exibirAlertaErro($mensagem)
@@ -14,6 +15,7 @@ function exibirAlertaErro($mensagem)
       return $mensagem;
     }
       return '';
+
 }
 
 ?>

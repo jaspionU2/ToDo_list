@@ -27,8 +27,8 @@ if (isset($_GET['excluir'])) {
     $ListaExcluida = true;
 
     $_SESSION["Tarefas"] = array_values($_SESSION["Tarefas"]);
-    header("Location: listaTarefa.php");
   }
+    header("Location: listaTarefa.php");
 }
 
 $tarefas = $_SESSION["Tarefas"];
@@ -47,13 +47,20 @@ $tarefas = $_SESSION["Tarefas"];
   <title>Document</title>
 
   <style>
-
-    .alerta_excluir{
+    .alerta_excluir {
       width: 10rem;
       left: 50%;
       transform: translate(-50%);
       margin-top: 3rem;
     }
+
+   .tabela_container{
+    padding-top: 5rem;
+   }
+
+   .titulo_tarefas_cadastrada{
+    left: 5.7rem;
+   }
 
   </style>
 
@@ -79,37 +86,40 @@ $tarefas = $_SESSION["Tarefas"];
     </nav>
 
     <?php if ($ListaExcluida) : ?>
-        <div class="alerta_excluir alert alert-danger text-center text-dark fw-semibold">Tarefa excluida!</div>
-      <?php endif; ?>
+      <div class="alerta_excluir alert alert-danger text-center text-dark fw-semibold">Tarefa excluida!</div>
+    <?php endif; ?>
 
-    <div class="container d-flex px-3 mt-5">
 
-     
+    <div class="titulo_tarefas_cadastrada container text-primary text-center w-25 mt-5 position-absolute">
+        <h2>Tarefas cadastradas</h2>
+      </div>
 
-      <table class="table table-hover">
-        <thead class="table-primary">
-          <tr>
-            <th class="col ">#</th>
-            <th scope="col">Tarefa</th>
-            <th scope="col">Data</th>
-            <th scope="col">Ação</th>
-          </tr>
-        </thead>
-        <tbody class="table-group-divider">
-          <?php if (isset($tarefas) && count($tarefas) > 0) : ?>
-            <?php foreach ($tarefas as $chave => $tarefa) : ?>
-              <tr class="table-success">
-                <th><?php echo $chave + 1; ?></th>
-                <td><?php echo  htmlspecialchars($tarefa["tarefa"]); ?></td>
-                <td><?php echo  htmlspecialchars($tarefa["data"]); ?></td>
-                <td><button type="button" class="btn btn-danger"><a class="link-light link-underline link-underline-opacity-0" href="listaTarefa.php?excluir=<?php echo $chave; ?>">Excluir</a></button></td>
-              </tr>
+    <div class="tabela_container container px-3 mt-5">
 
-            <?php endforeach; ?>
-          <?php endif; ?>
-        </tbody>
+        <table class="tabela table table-hover">
+          <thead class="table-primary">
+            <tr>
+              <th class="col ">#</th>
+              <th scope="col">Tarefa</th>
+              <th scope="col">Data</th>
+              <th scope="col">Ação</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <?php if (isset($tarefas) && count($tarefas) > 0) : ?>
+              <?php foreach ($tarefas as $chave => $tarefa) : ?>
+                <tr class="table-success">
+                  <th><?php echo $chave + 1; ?></th>
+                  <td><?php echo  htmlspecialchars($tarefa["tarefa"]); ?></td>
+                  <td><?php echo  htmlspecialchars($tarefa["data"]); ?></td>
+                  <td><button type="button" class="btn btn-danger"><a class="link-light link-underline link-underline-opacity-0" href="listaTarefa.php?excluir=<?php echo $chave; ?>">Excluir</a></button></td>
+                </tr>
 
-      </table>
+              <?php endforeach; ?>
+            <?php endif; ?>
+          </tbody>
+
+        </table>
 
     </div>
   </div>
