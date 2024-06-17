@@ -13,7 +13,7 @@ if (!VerificaoMetodoGet()) {
 
 
   $_SESSION["Tarefas"][] = [
-    "tarefa" => $TituloTarefa,
+    "tarefa" => strtolower($TituloTarefa),
     "data" => $DataTarefa
   ];
 }
