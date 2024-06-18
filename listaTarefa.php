@@ -7,13 +7,17 @@ include_once "./validacao/funcoesValidacao.php";
 // $tarefas = '';
 
 
-if (!VerificaoMetodoGet()) {
+if (VerificaoMetodoPost()) {
   $TituloTarefa = $_POST["Titulo_Tarefa"];
   $DataTarefa = $_POST["Data_Tarefa"];
 
+  if (!isset($_SESSION["Tarefas"])) {
+    $_SESSION["Tarefas"] = [];
+  }
+
 
   $_SESSION["Tarefas"][] = [
-    "tarefa" => strtolower($TituloTarefa),
+    "tarefa" => $TituloTarefa,
     "data" => $DataTarefa
   ];
 }
@@ -80,7 +84,7 @@ if (isset($_GET['excluir'])) {
               Tarefa</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active text-white fw-semibold fs-5" aria-current="page" href="BucarTarefa.php">Buscar
+            <a class="nav-link active text-white fw-semibold fs-5" aria-current="page" href="BuscarTarefa.php">Buscar
               Tarefa</a>
           </li>
         </ul>

@@ -10,7 +10,7 @@ $erroData = '';
 $sucessoValidação = '';
 
 
-if (!VerificaoMetodoGet()) {
+if (VerificaoMetodoPost()) {
 
   $DataTarefa = $_POST['Data_Tarefa'];
   $TituloTarefa = $_POST['Titulo_Tarefa'];
@@ -78,7 +78,7 @@ if (!VerificaoMetodoGet()) {
             <a class="nav-link text-white fw-semibold fs-5" href="listaTarefa.php">listar Tarefa</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white fw-semibold fs-5" href="BucarTarefa.php">Buscar Tarefa</a>
+            <a class="nav-link text-white fw-semibold fs-5" href="BuscarTarefa.php">Buscar Tarefa</a>
           </li>
         </ul>
       </div>
