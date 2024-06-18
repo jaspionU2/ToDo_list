@@ -3,7 +3,7 @@
 session_start();
 
 include "./validacao/funcoesValidacao.php";
-include "./alerta/alerta.php";
+include "./alert/alerta.php";
 
 $erroTitulo = '';
 $erroData = '';
@@ -76,6 +76,9 @@ if (!VerificaoMetodoGet()) {
           </li>
           <li class="nav-item">
             <a class="nav-link text-white fw-semibold fs-5" href="listaTarefa.php">listar Tarefa</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white fw-semibold fs-5" href="BucarTarefa.php">Buscar Tarefa</a>
           </li>
         </ul>
       </div>

@@ -4,7 +4,7 @@ session_start();
 
 include_once "./validacao/funcoesValidacao.php";
 
-
+// $tarefas = '';
 
 
 if (!VerificaoMetodoGet()) {
@@ -18,20 +18,19 @@ if (!VerificaoMetodoGet()) {
   ];
 }
 
+$tarefas = $_SESSION["Tarefas"];
+
 $ListaExcluida = false;
 
 if (isset($_GET['excluir'])) {
   if (isset($_SESSION["Tarefas"][$_GET['excluir']])) {
     unset($_SESSION["Tarefas"][$_GET['excluir']]);
+    $_SESSION["Tarefas"] = array_values($_SESSION["Tarefas"]);
 
     $ListaExcluida = true;
-
-    $_SESSION["Tarefas"] = array_values($_SESSION["Tarefas"]);
   }
-    header("Location: listaTarefa.php");
 }
 
-$tarefas = $_SESSION["Tarefas"];
 ?>
 
 
@@ -54,14 +53,13 @@ $tarefas = $_SESSION["Tarefas"];
       margin-top: 3rem;
     }
 
-   .tabela_container{
-    padding-top: 5rem;
-   }
+    .tabela_container {
+      padding-top: 5rem;
+    }
 
-   .titulo_tarefas_cadastrada{
-    left: 5.7rem;
-   }
-
+    .titulo_tarefas_cadastrada {
+      left: 5.7rem;
+    }
   </style>
 
 </head>
@@ -81,6 +79,10 @@ $tarefas = $_SESSION["Tarefas"];
             <a class="nav-link active text-white fw-semibold fs-5" aria-current="page" href="listaTarefa.php">listar
               Tarefa</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link active text-white fw-semibold fs-5" aria-current="page" href="BucarTarefa.php">Buscar
+              Tarefa</a>
+          </li>
         </ul>
       </div>
     </nav>
@@ -91,35 +93,35 @@ $tarefas = $_SESSION["Tarefas"];
 
 
     <div class="titulo_tarefas_cadastrada container text-primary text-center w-25 mt-5 position-absolute">
-        <h2>Tarefas cadastradas</h2>
-      </div>
+      <h2>Tarefas cadastradas</h2>
+    </div>
 
     <div class="tabela_container container px-3 mt-5">
 
-        <table class="tabela table table-hover">
-          <thead class="table-primary">
-            <tr>
-              <th class="col ">#</th>
-              <th scope="col">Tarefa</th>
-              <th scope="col">Data</th>
-              <th scope="col">Ação</th>
-            </tr>
-          </thead>
-          <tbody class="table-group-divider">
-            <?php if (isset($tarefas) && count($tarefas) > 0) : ?>
-              <?php foreach ($tarefas as $chave => $tarefa) : ?>
-                <tr class="table-success">
-                  <th><?php echo $chave + 1; ?></th>
-                  <td><?php echo  htmlspecialchars($tarefa["tarefa"]); ?></td>
-                  <td><?php echo  htmlspecialchars($tarefa["data"]); ?></td>
-                  <td><button type="button" class="btn btn-danger"><a class="link-light link-underline link-underline-opacity-0" href="listaTarefa.php?excluir=<?php echo $chave; ?>">Excluir</a></button></td>
-                </tr>
+      <table class="tabela table table-hover">
+        <thead class="table-primary">
+          <tr>
+            <th class="col ">#</th>
+            <th scope="col">Tarefa</th>
+            <th scope="col">Data</th>
+            <th scope="col">Ação</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          <?php if (isset($tarefas) && count($tarefas) > 0) : ?>
+            <?php foreach ($tarefas as $chave => $tarefa) : ?>
+              <tr class="table-success">
+                <th><?php echo $chave + 1; ?></th>
+                <td><?php echo  htmlspecialchars($tarefa["tarefa"]); ?></td>
+                <td><?php echo  htmlspecialchars($tarefa["data"]); ?></td>
+                <td><button type="button" class="btn btn-danger"><a class="link-light link-underline link-underline-opacity-0" href="listaTarefa.php?excluir=<?php echo $chave; ?>">Excluir</a></button></td>
+              </tr>
 
-              <?php endforeach; ?>
-            <?php endif; ?>
-          </tbody>
+            <?php endforeach; ?>
+          <?php endif; ?>
+        </tbody>
 
-        </table>
+      </table>
 
     </div>
   </div>
