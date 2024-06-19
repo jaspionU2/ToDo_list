@@ -6,6 +6,7 @@ include "./validacao/funcoesValidacao.php";
 include "./alert/alerta.php";
 
 
+
 if (VerificaoMetodoPost()) {
 
     $DataTarefa = $_POST['Data_Tarefa'];
@@ -37,8 +38,7 @@ $tarefas = isset($_SESSION["Tarefas"]) ?  $_SESSION["Tarefas"] : [];
 $Tarefa_buscada = isset($_GET['Buscar_Tarefa']) ? $_GET['Buscar_Tarefa'] : '';
 $Tarefa_encontrada = ValidacaoBusca($Tarefa_buscada, $tarefas);
 
-// var_dump($tarefas);
-// var_dump($Tarefa_buscada);
+
 
 ?>
 
@@ -82,20 +82,20 @@ $Tarefa_encontrada = ValidacaoBusca($Tarefa_buscada, $tarefas);
 
         <div class="container mt-5">
             <label for="Buscar_tarefa">
-                <h2 class="text-primary fw-semibold">Buscar Tarefas
+                <h2 class="text-primary fw-semibold">Buscar Tarefas</h2>
             </label>
         </div>
 
-        <?php if(VerificaoMetodoGet()) : ?>
+        <?php if (VerificaoMetodoGet()) : ?>
 
-        <form action="BuscarTarefa.php" method="get">
-            <div class="container mt-5">
-                <div class="col d-flex align-items-center">
-                    <input type="text" class="form-control me-2 w-75" id="Buscar_Tarefa" name="Buscar_Tarefa" autocomplete="on">
-                    <button type="submit" class="btn btn-primary w-25">BUSCAR TAREFA</button>
+            <form action="BuscarTarefa.php" method="get">
+                <div class="container mt-5">
+                    <div class="col d-flex align-items-center">
+                        <input type="text" class="form-control me-2 w-75" id="Buscar_Tarefa" name="Buscar_Tarefa" autocomplete="on">
+                        <button type="submit" class="btn btn-primary w-25">BUSCAR TAREFA</button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
 
         <?php endif; ?>
 
@@ -110,19 +110,18 @@ $Tarefa_encontrada = ValidacaoBusca($Tarefa_buscada, $tarefas);
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                    <?php if (empty($Tarefa_buscada)) : ?>
+                    <?php if (!empty($Tarefa_buscada)) : ?>
                         <?php if (count($Tarefa_encontrada) > 0) : ?>
-                            <tr class="table-success">
-                                <?php foreach ($Tarefa_encontrada as $chave => $buscador) : ?>
+                            <?php foreach ($Tarefa_encontrada as $chave => $buscador)  : ?>
+                                <tr class="table-success">
                                     <th scope="row"><?php echo $chave + 1; ?></th>
                                     <td><?php echo  htmlspecialchars($buscador["tarefa"]); ?></td>
                                     <td><?php echo  htmlspecialchars($buscador["data"]); ?></td>
                                     <td><button type="button" class="btn btn-danger"><a class="link-light link-underline link-underline-opacity-0" href="BuscarTarefa.php?excluir=<?php echo $chave; ?>">Excluir</a></button></td>
-                            </tr>
-                        <?php endforeach; ?>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     <?php endif; ?>
-                <?php endif; ?>
-
 
                 </tbody>
             </table>

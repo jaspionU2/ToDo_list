@@ -31,12 +31,15 @@ function VerificaoMetodoPost()
 
 function ValidacaoBusca($busca, $tarefas)
 {
-  if (!empty($busca) && strlen($busca) > 0) {
+  if (!empty($busca)) {
     $TarefasFiltradas = [];
     $buscaLowerCase = strtolower($busca);
 
     foreach ($tarefas as $tarefa) {
-      if (str_contains(strtolower($tarefa['tarefa']), $buscaLowerCase)) {
+
+      $tarefaLowerCase = strtolower($tarefa['tarefa']);
+
+      if (str_contains($tarefaLowerCase, $buscaLowerCase)) {
         $TarefasFiltradas[] = $tarefa;
       }
     }
