@@ -127,7 +127,7 @@ $Total_Encontros_Tarefa = count($Tarefa_encontrada)
 
             <table class="table">
                 <thead>
-                    <tr>
+                    <tr class="table-primary">
                         <th class="col ">#</th>
                         <th scope="col">Tarefa</th>
                         <th scope="col">Data</th>
