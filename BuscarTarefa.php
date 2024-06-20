@@ -37,6 +37,7 @@ if (isset($_GET['excluir'])) {
 $tarefas = isset($_SESSION["Tarefas"]) ?  $_SESSION["Tarefas"] : [];
 $Tarefa_buscada = isset($_GET['Buscar_Tarefa']) ? $_GET['Buscar_Tarefa'] : '';
 $Tarefa_encontrada = ValidacaoBusca($Tarefa_buscada, $tarefas);
+$Total_Encontros_Tarefa = count($Tarefa_encontrada)
 
 
 
@@ -53,6 +54,13 @@ $Tarefa_encontrada = ValidacaoBusca($Tarefa_buscada, $tarefas);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>Document</title>
+
+    <style>
+        #textoBusca {
+            text-wrap: nowrap;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -100,6 +108,23 @@ $Tarefa_encontrada = ValidacaoBusca($Tarefa_buscada, $tarefas);
         <?php endif; ?>
 
         <div class="container mt-5">
+            <?php if (!empty($Tarefa_encontrada)) : ?>
+                <p class="fw-normal fs-2">Foram encontrados <span class="fw-bold"><?php echo $Total_Encontros_Tarefa ?> registros</span> com a palavra-chave <span class="fw-bold">"<?php echo $Tarefa_buscada ?>"</span></p>
+            <?php endif; ?>
+            <?php if (strlen($Tarefa_buscada) < 3) : ?>
+                <div class="alert alert-danger">
+                    <strong>Ops!!!</strong>
+                    <span>você precisa informar ao menos 3 caracteres para realizar uma busca</span>
+                </div>
+            <?php endif; ?>
+            <?php if (empty($Tarefa_encontrada)) : ?>
+                <div class="alert alert-warning">
+                    <strong>Ops!!!</strong>
+                    <span>Não foram encontrados registros com a palavra-chave <span class="fw-bold">"<?php echo $Tarefa_buscada ?>"</span></span>
+                </div>
+            <?php endif; ?>
+
+
             <table class="table">
                 <thead>
                     <tr>
@@ -110,9 +135,9 @@ $Tarefa_encontrada = ValidacaoBusca($Tarefa_buscada, $tarefas);
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                    <?php if (!empty($Tarefa_buscada)) : ?>
+                    <?php if (!empty($Tarefa_buscada) && strlen($Tarefa_buscada) >= 3) : ?>
                         <?php if (count($Tarefa_encontrada) > 0) : ?>
-                            <?php foreach ($Tarefa_encontrada as $chave => $buscador)  : ?>
+                            <?php foreach ($Tarefa_encontrada as $chave => $buscador) : ?>
                                 <tr class="table-success">
                                     <th scope="row"><?php echo $chave + 1; ?></th>
                                     <td><?php echo  htmlspecialchars($buscador["tarefa"]); ?></td>
@@ -130,11 +155,6 @@ $Tarefa_encontrada = ValidacaoBusca($Tarefa_buscada, $tarefas);
         </div>
 
     </div>
-
-
-
-
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
