@@ -2,10 +2,10 @@
 
 session_start();
 
-include "./validacao/funcoesValidacao.php";
-include "./alert/alerta.php";
+include "../validacao/funcoesValidacao.php";
+include "../alert/alerta.php";
 
-
+$Tarefa_buscada = null;
 
 if (VerificaoMetodoPost()) {
 
@@ -72,14 +72,14 @@ $Total_Encontros_Tarefa = count($Tarefa_encontrada)
                 <Span class="text-white font fw-semibold me-auto fs-5">ToDo list</Span>
                 <ul class="navbar-nav mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active text-white fw-semibold fs-5" aria-current="page" href="index.php">Cadastrar
+                        <a class="nav-link active text-white fw-semibold fs-5" aria-current="page" href="../Pagina/index.php">Cadastrar
                             tarefa</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white fw-semibold fs-5" href="listaTarefa.php">listar Tarefa</a>
+                        <a class="nav-link text-white fw-semibold fs-5" href="../Pagina/listaTarefa.php">listar Tarefa</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active text-white fw-semibold fs-5" aria-current="page" href="BuscarTarefa.php">Buscar
+                        <a class="nav-link active text-white fw-semibold fs-5" aria-current="page" href="../Pagina/BuscarTarefa.php">Buscar
                             Tarefa</a>
                     </li>
                 </ul>
@@ -109,9 +109,9 @@ $Total_Encontros_Tarefa = count($Tarefa_encontrada)
 
         <div class="container mt-5">
             <?php if (!empty($Tarefa_encontrada)) : ?>
-                <p class="fw-normal fs-2">Foram encontrados <span class="fw-bold"><?php echo $Total_Encontros_Tarefa ?> registros</span> com a palavra-chave <span class="fw-bold">"<?php echo $Tarefa_buscada ?>"</span></p>
+                <p class="fw-normal fs-2">Foram encontrado(s) <span class="fw-bold"><?php echo $Total_Encontros_Tarefa ?> registros</span> com a palavra-chave <span class="fw-bold">"<?php echo $Tarefa_buscada ?>"</span></p>
             <?php endif; ?>
-            <?php if (strlen($Tarefa_buscada) < 3) : ?>
+            <?php if (strlen($Tarefa_buscada) < 3 && !is_null($Tarefa_buscada)) : ?>
                 <div class="alert alert-danger">
                     <strong>Ops!!!</strong>
                     <span>você precisa informar ao menos 3 caracteres para realizar uma busca</span>
@@ -123,6 +123,7 @@ $Total_Encontros_Tarefa = count($Tarefa_encontrada)
                     <span>Não foram encontrados registros com a palavra-chave <span class="fw-bold">"<?php echo $Tarefa_buscada ?>"</span></span>
                 </div>
             <?php endif; ?>
+           
 
 
             <table class="table">

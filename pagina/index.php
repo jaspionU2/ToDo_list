@@ -2,15 +2,18 @@
 
 session_start();
 
-include "./validacao/funcoesValidacao.php";
-include "./alert/alerta.php";
+include "../validacao/funcoesValidacao.php";
+include "../alert/alerta.php";
 
 $erroTitulo = '';
 $erroData = '';
 $sucessoValidação = '';
 
 
+
 if (VerificaoMetodoPost()) {
+
+  include_once "../validacao/conexao.php";
 
   $DataTarefa = $_POST['Data_Tarefa'];
   $TituloTarefa = $_POST['Titulo_Tarefa'];
@@ -31,11 +34,20 @@ if (VerificaoMetodoPost()) {
   if (ValidacaoData($DataTarefa) && ValidacaoTitulo($TituloTarefa)) {
     $sucessoValidação = "Tarefa cadastrada com sucesso";
 
-    $_SESSION["Tarefas"][] =
-      [
-        "tarefa" => $TituloTarefa,
-        "data" =>  date('d/m/Y', strtotime($DataTarefa))
-      ];
+  
+    $stmt = $conexao->prepare("INSERT INTO tarefas (titulo, datas) VALUES (?, ?)");
+    $stmt->bind_param("ss", $TituloTarefa, $DataTarefa); //
+    $stmt->execute();
+    $stmt->close();
+
+
+    // $_SESSION["Tarefas"][] =
+    //    [
+    //     "tarefa" => $TituloTarefa,
+    //     "data" =>  date('d/m/Y', strtotime($DataTarefa))
+    //    ];
+
+
 
   }
 }
@@ -71,14 +83,15 @@ if (VerificaoMetodoPost()) {
         <Span class="text-white font fw-semibold me-auto fs-5">ToDo list</Span>
         <ul class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active text-white fw-semibold fs-5" aria-current="page" href="index.php">Cadastrar
+            <a class="nav-link active text-white fw-semibold fs-5" aria-current="page" href="../Pagina/index.php">Cadastrar
               tarefa</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white fw-semibold fs-5" href="listaTarefa.php">listar Tarefa</a>
+            <a class="nav-link text-white fw-semibold fs-5" href="../Pagina/listaTarefa.php">listar Tarefa</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white fw-semibold fs-5" href="BuscarTarefa.php">Buscar Tarefa</a>
+            <a class="nav-link active text-white fw-semibold fs-5" aria-current="page" href="../Pagina/BuscarTarefa.php">Buscar
+              Tarefa</a>
           </li>
         </ul>
       </div>
@@ -117,7 +130,7 @@ if (VerificaoMetodoPost()) {
               </div>
             <?php endif; ?>
             <label for="Data_Tarefa" class="form-label fw-semibold">Data da Tarefa</label>
-            <input type="date" class="form-control" id="Data_Tarefa" name="Data_Tarefa" placeholder= "">
+            <input type="date" class="form-control" id="Data_Tarefa" name="Data_Tarefa" placeholder="">
           </div>
           <button class="btn btn-primary" type="submit">Cadastrar Tarefa</button>
       </div>

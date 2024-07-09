@@ -2,38 +2,41 @@
 
 session_start();
 
-include_once "./validacao/funcoesValidacao.php";
+include_once "../validacao/funcoesValidacao.php";
+include_once "../validacao/conexao.php";
+
+$result = $conexao->query("SELECT * FROM tarefas ORDER BY Id ")
 
 // $tarefas = '';
 
 
-if (VerificaoMetodoPost()) {
-  $TituloTarefa = $_POST["Titulo_Tarefa"];
-  $DataTarefa = $_POST["Data_Tarefa"];
+// if (VerificaoMetodoPost()) {
+//   $TituloTarefa = $_POST["Titulo_Tarefa"];
+//   $DataTarefa = $_POST["Data_Tarefa"];
 
-  if (!isset($_SESSION["Tarefas"])) {
-    $_SESSION["Tarefas"] = [];
-  }
+//   if (!isset($_SESSION["Tarefas"])) {
+//     $_SESSION["Tarefas"] = [];
+//   }
 
 
-  $_SESSION["Tarefas"][] = [
-    "tarefa" => $TituloTarefa,
-    "data" => $DataTarefa
-  ];
-}
+//   $_SESSION["Tarefas"][] = [
+//     "tarefa" => $TituloTarefa,
+//     "data" => $DataTarefa
+//   ];
+// }
 
-$tarefas = $_SESSION["Tarefas"];
+// $tarefas = $_SESSION["Tarefas"];
 
-$ListaExcluida = false;
+// $ListaExcluida = false;
 
-if (isset($_GET['excluir'])) {
-  if (isset($_SESSION["Tarefas"][$_GET['excluir']])) {
-    unset($_SESSION["Tarefas"][$_GET['excluir']]);
-    $_SESSION["Tarefas"] = array_values($_SESSION["Tarefas"]);
+// if (isset($_GET['excluir'])) {
+//   if (isset($_SESSION["Tarefas"][$_GET['excluir']])) {
+//     unset($_SESSION["Tarefas"][$_GET['excluir']]);
+//     $_SESSION["Tarefas"] = array_values($_SESSION["Tarefas"]);
 
-    $ListaExcluida = true;
-  }
-}
+//     $ListaExcluida = true;
+//   }
+// }
 
 ?>
 
@@ -77,23 +80,23 @@ if (isset($_GET['excluir'])) {
         <Span class="text-white font fw-semibold me-auto fs-5">ToDo list</Span>
         <ul class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link text-white fw-semibold fs-5" href="index.php">Cadastrar tarefa</a>
+            <a class="nav-link active text-white fw-semibold fs-5" aria-current="page" href="../Pagina/index.php">Cadastrar
+              tarefa</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active text-white fw-semibold fs-5" aria-current="page" href="listaTarefa.php">listar
-              Tarefa</a>
+            <a class="nav-link text-white fw-semibold fs-5" href="../Pagina/listaTarefa.php">listar Tarefa</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active text-white fw-semibold fs-5" aria-current="page" href="BuscarTarefa.php">Buscar
+            <a class="nav-link active text-white fw-semibold fs-5" aria-current="page" href="../Pagina/BuscarTarefa.php">Buscar
               Tarefa</a>
           </li>
         </ul>
       </div>
     </nav>
 
-    <?php if ($ListaExcluida) : ?>
+    <!-- <?php if ($ListaExcluida) : ?>
       <div class="alerta_excluir alert alert-danger text-center text-dark fw-semibold">Tarefa excluida!</div>
-    <?php endif; ?>
+    <?php endif; ?> -->
 
 
     <div class="titulo_tarefas_cadastrada container text-primary text-center w-25 mt-5 position-absolute">
@@ -112,17 +115,16 @@ if (isset($_GET['excluir'])) {
           </tr>
         </thead>
         <tbody class="table-group-divider">
-          <?php if (isset($tarefas) && count($tarefas) > 0) : ?>
-            <?php foreach ($tarefas as $chave => $tarefa) : ?>
-              <tr class="table-success">
-                <th><?php echo $chave + 1; ?></th>
-                <td><?php echo  htmlspecialchars($tarefa["tarefa"]); ?></td>
-                <td><?php echo  htmlspecialchars($tarefa["data"]); ?></td>
-                <td><button type="button" class="btn btn-danger"><a class="link-light link-underline link-underline-opacity-0" href="listaTarefa.php?excluir=<?php echo $chave; ?>">Excluir</a></button></td>
-              </tr>
-
-            <?php endforeach; ?>
-          <?php endif; ?>
+          <?php while ($row = $result->fetch_assoc()) : ?>
+            <tr class="table-success">
+              <th><?php echo $row["Id"]; ?></th>
+              <td><?php echo  $row["titulo"]; ?></td>
+              <td><?php echo  date('d/m/Y', strtotime($row["datas"]))  ; ?></td>
+              <td>
+                <a href="../validacao/delete.php?id=<?php echo $row['Id']; ?>" class="btn btn-danger link-light link-underline link-underline-opacity-0">Excluir</a>
+              </td>
+            </tr>
+          <?php endwhile; ?>
         </tbody>
 
       </table>
