@@ -5,7 +5,7 @@ session_start();
 include_once "../validacao/funcoesValidacao.php";
 include_once "../validacao/conexao.php";
 
-$result = $conexao->query("SELECT * FROM tarefas ORDER BY Id ")
+$result = $conexao->query("SELECT * FROM tarefas ORDER BY Id ");
 
 // $tarefas = '';
 

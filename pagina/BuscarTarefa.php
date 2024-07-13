@@ -4,42 +4,8 @@ session_start();
 
 include "../validacao/funcoesValidacao.php";
 include "../alert/alerta.php";
-
-$Tarefa_buscada = null;
-
-if (VerificaoMetodoPost()) {
-
-    $DataTarefa = $_POST['Data_Tarefa'];
-    $TituloTarefa = $_POST['Titulo_Tarefa'];
-
-    if (!isset($_SESSION["Tarefas"])) {
-        $_SESSION["Tarefas"] = [];
-    }
-
-    $_SESSION["Tarefas"][] = [
-        "tarefa" => $TituloTarefa,
-        "data" => $DataTarefa
-    ];
-}
-
-$ListaExcluida = false;
-
-if (isset($_GET['excluir'])) {
-    if (isset($_SESSION["Tarefas"][$_GET['excluir']])) {
-        unset($_SESSION["Tarefas"][$_GET['excluir']]);
-        $_SESSION["Tarefas"] = array_values($_SESSION["Tarefas"]);
-
-        $ListaExcluida = true;
-    }
-}
-
-
-$tarefas = isset($_SESSION["Tarefas"]) ?  $_SESSION["Tarefas"] : [];
-$Tarefa_buscada = isset($_GET['Buscar_Tarefa']) ? $_GET['Buscar_Tarefa'] : '';
-$Tarefa_encontrada = ValidacaoBusca($Tarefa_buscada, $tarefas);
-$Total_Encontros_Tarefa = count($Tarefa_encontrada)
-
-
+include "../validacao/busca.php";
+ 
 
 ?>
 
@@ -79,8 +45,7 @@ $Total_Encontros_Tarefa = count($Tarefa_encontrada)
                         <a class="nav-link text-white fw-semibold fs-5" href="../Pagina/listaTarefa.php">listar Tarefa</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active text-white fw-semibold fs-5" aria-current="page" href="../Pagina/BuscarTarefa.php">Buscar
-                            Tarefa</a>
+                        <a class="nav-link active text-white fw-semibold fs-5" aria-current="page" href="../Pagina/BuscarTarefa.php">Buscar Tarefa</a>
                     </li>
                 </ul>
             </div>
@@ -108,22 +73,22 @@ $Total_Encontros_Tarefa = count($Tarefa_encontrada)
         <?php endif; ?>
 
         <div class="container mt-5">
-            <?php if (!empty($Tarefa_encontrada)) : ?>
-                <p class="fw-normal fs-2">Foram encontrado(s) <span class="fw-bold"><?php echo $Total_Encontros_Tarefa ?> registros</span> com a palavra-chave <span class="fw-bold">"<?php echo $Tarefa_buscada ?>"</span></p>
+            <?php if (!empty($result) && $Total_Encontros_Tarefa > 0) : ?>
+                <p class="fw-normal fs-2">Foram encontrado(s) <span class="fw-bold"><?php echo $Total_Encontros_Tarefa ?> registros</span> com a palavra-chave <span class="fw-bold">"<?php echo $tarefaBuscada ?>"</span></p>
             <?php endif; ?>
-            <?php if (strlen($Tarefa_buscada) < 3 && !is_null($Tarefa_buscada)) : ?>
+            <?php if (isset($tarefaBuscada) && strlen($tarefaBuscada) < 3) : ?>
                 <div class="alert alert-danger">
                     <strong>Ops!!!</strong>
                     <span>você precisa informar ao menos 3 caracteres para realizar uma busca</span>
                 </div>
             <?php endif; ?>
-            <?php if (empty($Tarefa_encontrada)) : ?>
+            <?php if (isset($tarefaBuscada) && empty($tarefaBuscada)) : ?>
                 <div class="alert alert-warning">
                     <strong>Ops!!!</strong>
-                    <span>Não foram encontrados registros com a palavra-chave <span class="fw-bold">"<?php echo $Tarefa_buscada ?>"</span></span>
+                    <span>Não foram encontrados registros com a palavra-chave <span class="fw-bold">"<?php echo $tarefaBuscada ?>"</span></span>
                 </div>
             <?php endif; ?>
-           
+
 
 
             <table class="table">
@@ -136,17 +101,17 @@ $Total_Encontros_Tarefa = count($Tarefa_encontrada)
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                    <?php if (!empty($Tarefa_buscada) && strlen($Tarefa_buscada) >= 3) : ?>
-                        <?php if (count($Tarefa_encontrada) > 0) : ?>
-                            <?php foreach ($Tarefa_encontrada as $chave => $buscador) : ?>
-                                <tr class="table-success">
-                                    <th scope="row"><?php echo $chave + 1; ?></th>
-                                    <td><?php echo  htmlspecialchars($buscador["tarefa"]); ?></td>
-                                    <td><?php echo  htmlspecialchars($buscador["data"]); ?></td>
-                                    <td><button type="button" class="btn btn-danger"><a class="link-light link-underline link-underline-opacity-0" href="BuscarTarefa.php?excluir=<?php echo $chave; ?>">Excluir</a></button></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
+                    <?php if(!empty($result)): ?>
+                    <?php while ($row = $result->fetch_assoc()) : ?>
+                        <tr class="table-success">
+                            <th><?php echo $row["Id"]; ?></th>
+                            <td><?php echo  $row["titulo"]; ?></td>
+                            <td><?php echo  date('d/m/Y', strtotime($row["datas"])); ?></td>
+                            <td>
+                                <a href="../validacao/delete.php?id=<?php echo $row['Id']; ?>" class="btn btn-danger link-light link-underline link-underline-opacity-0">Excluir</a>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
                     <?php endif; ?>
 
                 </tbody>
